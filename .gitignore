@@ -1,3 +1,6 @@
 vendor/
 web/assets/
 runtime/
+
+config/secret.php
+composer.lock

@@ -52,7 +52,11 @@ class SiteController extends Controller
     {
         $model = new ScrapeForm();
 
-        return $this->render('scrape', ['model' => $model]);
+        if ($model->load(Yii::$app->request->post()) && $model->scrape()) {
+            return $this->render('index', ['results' => $model->getResults()]);
+        } else {
+            return $this->render('scrape', ['model' => $model]);
+        }
     }
 
 }
