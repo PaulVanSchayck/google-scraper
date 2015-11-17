@@ -2,15 +2,11 @@
 
 namespace app\controllers;
 
-use Google_Client;
-use Google_Service_Books;
-use Google_Service_Customsearch;
+use app\models\ScrapeForm;
 use Yii;
 use yii\filters\AccessControl;
 use yii\web\Controller;
 use yii\filters\VerbFilter;
-use app\models\LoginForm;
-use app\models\ContactForm;
 
 class SiteController extends Controller
 {
@@ -42,11 +38,7 @@ class SiteController extends Controller
         return [
             'error' => [
                 'class' => 'yii\web\ErrorAction',
-            ],
-            'captcha' => [
-                'class' => 'yii\captcha\CaptchaAction',
-                'fixedVerifyCode' => YII_ENV_TEST ? 'testme' : null,
-            ],
+            ]
         ];
     }
 
@@ -56,28 +48,11 @@ class SiteController extends Controller
     }
 
 
-    public function actionLogout()
+    public function actionScrape()
     {
-        Yii::$app->user->logout();
+        $model = new ScrapeForm();
 
-        return $this->goHome();
+        return $this->render('scrape', ['model' => $model]);
     }
 
-    public function actionContact()
-    {
-        $model = new ContactForm();
-        if ($model->load(Yii::$app->request->post()) && $model->contact(Yii::$app->params['adminEmail'])) {
-            Yii::$app->session->setFlash('contactFormSubmitted');
-
-            return $this->refresh();
-        }
-        return $this->render('contact', [
-            'model' => $model,
-        ]);
-    }
-
-    public function actionAbout()
-    {
-        return $this->render('about');
-    }
 }
