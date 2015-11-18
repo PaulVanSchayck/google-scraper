@@ -1,6 +1,20 @@
 <?php
 
-$params = require(__DIR__ . '/params.php');
+// Quick and dirty environment switching for deployment
+if ( isset($_SERVER['APIKEY']) ) {
+    $params['secret']['apikey'] = $_SERVER['APIKEY'];
+    $db = [
+        'class' => 'yii\db\Connection',
+        'dsn' => "mysql:host={$_SERVER['RDS_HOSTNAME']};dbname=google-scraper",
+        'username' => $_SERVER['RDS_USERNAME'],
+        'password' => $_SERVER['RDS_PASSWORD'],
+        'charset' => 'utf8',
+    ];
+} else {
+    $params = require(__DIR__ . '/params.php');
+    $db = require(__DIR__ . '/db.php');
+}
+
 
 $config = [
     'id' => 'basic',
@@ -29,7 +43,7 @@ $config = [
                 ],
             ],
         ],
-        'db' => require(__DIR__ . '/db.php'),
+        'db' => $db,
         'urlManager' => [
             'enablePrettyUrl' => true,
             'showScriptName' => false,
