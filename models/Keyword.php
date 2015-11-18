@@ -29,10 +29,9 @@ class Keyword extends ActiveRecord
     }
 
     /**
-     * @param $url
      * @return string[]
      */
-    public function getUrls($url)
+    public function getUrls()
     {
         return unserialize($this->urls);
     }

@@ -59,7 +59,9 @@ class ScrapeForm extends Model
             'num' => 10
         ]);
 
-        $this->results = ArrayHelper::getColumn($results->getItems(), 'link');
+        // Only get the link column from the results
+
+        $this->results = $results->getItems();
 
         return true;
     }

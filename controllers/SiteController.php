@@ -4,8 +4,11 @@ namespace app\controllers;
 
 use app\models\Keyword;
 use app\models\ScrapeForm;
+use app\models\ViewForm;
 use Yii;
+use yii\data\ArrayDataProvider;
 use yii\filters\AccessControl;
+use yii\helpers\ArrayHelper;
 use yii\web\Controller;
 use yii\filters\VerbFilter;
 use yii\web\HttpException;
@@ -29,7 +32,25 @@ class SiteController extends Controller
      */
     public function actionIndex()
     {
-        return $this->render('index');
+        $model = new ViewForm();
+        $dataProvider = null;
+
+        if ($model->load(Yii::$app->request->post()) && $model->validate()) {
+
+            $k = Keyword::findOne(['keyword' => $model->keyword]);
+
+            if ( $k ) {
+                $dataProvider = new ArrayDataProvider([
+                    'allModels' => $k->getUrls(),
+                ]);
+            }
+        }
+
+        return $this->render('index', [
+            'model' => $model,
+            'keywords' => ArrayHelper::map(Keyword::find()->orderBy('keyword')->all(), 'keyword', 'keyword'),
+            'dataProvider' => $dataProvider
+        ]);
     }
 
 
@@ -57,7 +78,7 @@ class SiteController extends Controller
         $keyword->setUrls($model->getResults());
         $keyword->save();
 
-        return $this->render('index');
+        return $this->redirect(['site/index']);
 
     }
 
