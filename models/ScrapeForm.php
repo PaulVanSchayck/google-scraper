@@ -66,7 +66,7 @@ class ScrapeForm extends Model
     {
         $service = new Google_Service_Customsearch($this->client);
 
-        for ($start = 1; $start < 20; $start += 10) {
+        for ($start = 1; $start < 100; $start += 10) {
             $results = $service->cse->listCse($this->keyword, [
                 'cx' => '008046774896284021390:aqku2is5b2o',
                 'num' => 10,

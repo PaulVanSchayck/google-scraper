@@ -71,7 +71,7 @@ class SiteController extends Controller
         try {
             $model->scrape();
         } catch (\Google_Exception $e) {
-            throw new HttpException(500, "Could not scrape Google");
+            throw new HttpException(500, "Could not scrape Google. Reached quota?");
         }
 
         $keyword = new Keyword([
@@ -80,7 +80,7 @@ class SiteController extends Controller
         $keyword->setUrls($model->getResults());
         $keyword->save();
 
-        return $this->redirect(['site/index']);
+        return $this->redirect(['site/index', 'ViewForm[keyword]' => $model->keyword]);
 
     }
 
