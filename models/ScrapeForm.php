@@ -6,14 +6,21 @@ use Google_Client;
 use Google_Service_Customsearch;
 use Yii;
 use yii\base\Model;
+use yii\helpers\ArrayHelper;
 
 /**
  * ContactForm is the model behind the contact form.
  */
 class ScrapeForm extends Model
 {
+    /**
+     * @var string
+     */
     public $keyword;
 
+    /**
+     * @var array
+     */
     private $results;
 
     /**
@@ -47,12 +54,12 @@ class ScrapeForm extends Model
         $client->setDeveloperKey(Yii::$app->params['secret']['apikey']);
 
         $service = new Google_Service_Customsearch($client);
-        $results = $service->cse->listCse('foobar', [
+        $results = $service->cse->listCse($this->keyword, [
             'cx' => '008046774896284021390:aqku2is5b2o',
             'num' => 10
         ]);
 
-        $this->results = $results;
+        $this->results = ArrayHelper::getColumn($results->getItems(), 'link');
 
         return true;
     }
