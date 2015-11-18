@@ -9,7 +9,7 @@ class m151118_184749_intialize extends Migration
     {
         $this->createTable('keyword', [
             'keyword' => Schema::TYPE_STRING ." PRIMARY KEY",
-            'urls' =>  Schema::TYPE_TEXT
+            'urls' =>  "MEDIUMTEXT"
         ]);
 
         return true;
