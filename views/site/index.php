@@ -14,7 +14,7 @@ $this->title = 'Google Scraper';
 ?>
 <div class="site-index">
 
-    <?php $form = ActiveForm::begin(); ?>
+    <?php $form = ActiveForm::begin(['method' => 'get']); ?>
 
     <div class="row">
         <div class="col-lg-6">
@@ -33,18 +33,19 @@ $this->title = 'Google Scraper';
     </div>
 
     <?php if( $dataProvider != null): ?>
-    <div class="row">
-        <div class="col-lg-12">
-            <?= GridView::widget([
-                'dataProvider' => $dataProvider,
-                'columns' => [
-                    'title',
-                    'link',
+        <div class="panel panel-primary">
+            <div class="panel-heading">Results</div>
+            <div class="panel-body">
+                <?= GridView::widget([
+                    'dataProvider' => $dataProvider,
+                    'columns' => [
+                        'title',
+                        'link',
 
-                ]
-            ]); ?>
+                    ]
+                ]); ?>
+            </div>
         </div>
-    </div>
     <?php endif ?>
 
 </div>

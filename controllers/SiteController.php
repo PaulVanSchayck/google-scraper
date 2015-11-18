@@ -35,13 +35,16 @@ class SiteController extends Controller
         $model = new ViewForm();
         $dataProvider = null;
 
-        if ($model->load(Yii::$app->request->post()) && $model->validate()) {
+        if ($model->load(Yii::$app->request->get()) && $model->validate()) {
 
             $k = Keyword::findOne(['keyword' => $model->keyword]);
 
             if ( $k ) {
                 $dataProvider = new ArrayDataProvider([
                     'allModels' => $k->getUrls(),
+                    'pagination' => [
+                        'pageSize' => 10,
+                    ]
                 ]);
             }
         }
