@@ -7,9 +7,10 @@
     "support": {
         "source": "https://github.com/paulvanschayck/google-scraper"
     },
-    "minimum-stability": "beta",
+    "minimum-stability": "stable",
     "require": {
         "php": ">=5.4.0",
+        "fxp/composer-asset-plugin": "~1.0.3",
         "yiisoft/yii2": "2.0.*",
         "yiisoft/yii2-bootstrap": "*",
         "google/apiclient": "^2.0.0@RC",
@@ -22,7 +23,10 @@
         "yiisoft/yii2-faker": "*"
     },
     "config": {
-        "process-timeout": 1800
+        "process-timeout": 1800,
+        "github-oauth": {
+            "github.com": "fcf2130901971ed083151f4ee142b91aa28b9eeb"
+        }
     },
     "scripts": {
         "post-create-project-cmd": [
