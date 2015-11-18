@@ -7,10 +7,8 @@ use app\models\ScrapeForm;
 use app\models\ViewForm;
 use Yii;
 use yii\data\ArrayDataProvider;
-use yii\filters\AccessControl;
 use yii\helpers\ArrayHelper;
 use yii\web\Controller;
-use yii\filters\VerbFilter;
 use yii\web\HttpException;
 
 class SiteController extends Controller
@@ -37,6 +35,7 @@ class SiteController extends Controller
 
         if ($model->load(Yii::$app->request->get()) && $model->validate()) {
 
+            /* @var Keyword $k */
             $k = Keyword::findOne(['keyword' => $model->keyword]);
 
             if ( $k ) {
