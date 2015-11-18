@@ -25,7 +25,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <div class="row">
         <div class="col-lg-6">
-            <?= Html::submitButton('Scrape', ['class' => 'btn btn-primary']) ?>
+            <?= Html::submitButton('Scrape', ['class' => 'btn btn-primary', 'data-loading-text' => "Scraping..." ]) ?>
         </div>
     </div>
 
