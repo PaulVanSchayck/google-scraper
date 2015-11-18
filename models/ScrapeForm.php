@@ -21,7 +21,12 @@ class ScrapeForm extends Model
     /**
      * @var array
      */
-    private $results;
+    private $results = [];
+
+    /**
+     * @var Google_Client
+     */
+    private $client;
 
     /**
      * @return array the validation rules.
@@ -44,24 +49,38 @@ class ScrapeForm extends Model
         ];
     }
 
-    /**
-     * @return bool
-     */
-    public function scrape()
+    public function init()
     {
         $client = new Google_Client();
         $client->setApplicationName("scraper");
         $client->setDeveloperKey(Yii::$app->params['secret']['apikey']);
 
-        $service = new Google_Service_Customsearch($client);
-        $results = $service->cse->listCse($this->keyword, [
-            'cx' => '008046774896284021390:aqku2is5b2o',
-            'num' => 10
-        ]);
+        $this->client = $client;
+    }
 
-        // Only get the link column from the results
+    /**
+     * @return bool
+     */
+    public function scrape()
+    {
+        $service = new Google_Service_Customsearch($this->client);
 
-        $this->results = $results->getItems();
+        for ($start = 1; $start < 20; $start += 10) {
+            $results = $service->cse->listCse($this->keyword, [
+                'cx' => '008046774896284021390:aqku2is5b2o',
+                'num' => 10,
+                'start' => $start
+            ]);
+
+            $r = array_map( function($a) {
+                return [
+                    'link' => $a['link'],
+                    'title'  => $a['title']
+                ];
+            }, $results->getItems());
+
+            $this->results = array_merge($this->results, $r);
+        }
 
         return true;
     }
