@@ -25,7 +25,7 @@ class Keyword extends ActiveRecord
      */
     public function setUrls($url)
     {
-        $this->urls = serialize($url);
+        $this->urls = base64_encode(serialize($url));
     }
 
     /**
@@ -33,6 +33,6 @@ class Keyword extends ActiveRecord
      */
     public function getUrls()
     {
-        return unserialize($this->urls);
+        return unserialize(base64_decode($this->urls));
     }
 }
