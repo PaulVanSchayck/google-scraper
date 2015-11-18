@@ -65,7 +65,7 @@ class SiteController extends Controller
     {
         $model = new ScrapeForm();
 
-        if (! ($model->load(Yii::$app->request->post()) && $model->validate())) {
+        if ( !$model->load(Yii::$app->request->post()) || !$model->validate()) {
             return $this->render('scrape', ['model' => $model]);
         }
 

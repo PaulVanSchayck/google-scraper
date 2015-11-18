@@ -36,6 +36,7 @@ class ScrapeForm extends Model
         return [
             [['keyword'], 'required'],
             [['keyword'], 'string'],
+            [['keyword'], 'unique', 'targetClass' => 'app\models\Keyword', 'targetAttribute' => 'keyword'],
         ];
     }
 
